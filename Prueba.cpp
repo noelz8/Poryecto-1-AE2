@@ -1,7 +1,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include "Obvio.hpp"
+#include "ImageProcessing.hpp"
 #include "errno.h"
 #include <iostream>
 #include <stdio.h>
