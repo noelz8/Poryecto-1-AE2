@@ -122,13 +122,13 @@ int main()
 
         if(string(buf2, 0, bytes2)=="1"){
 
-            image.gaussianBlur();
+            image.gaussianBlur(buf);
             break;
         }
 
         if(string(buf2, 0, bytes2)=="2"){
 
-            image.gray_scale();
+            image.gray_scale(buf);
             break;
         }
 
@@ -136,7 +136,7 @@ int main()
 
             send(clientSocket, factor, strlen(factor)+1, 0);
             int facts = recv(clientSocket, fact, 4096, 0);
-            image.brightControl(stoi(fact));
+            image.brightControl(buf, stoi(fact));
             break;
             
 
@@ -147,7 +147,7 @@ int main()
 
             send(clientSocket, gamma, strlen(gamma)+1, 0);
             int facts = recv(clientSocket, fact, 4096, 0);
-            image.gammaCorrection(stoi(fact));
+            image.gammaCorrection(buf, stoi(fact));
             break;
         }
    
