@@ -8,9 +8,9 @@ using namespace cv;
 using namespace std;
 
  int gaussianBlur(const char* file){
-
-        Mat image = imread(file);
-        if (image.empty()){
+    Mat image = imread(file);
+    
+    if (image.empty()){
             
             return -1;
         }
