@@ -32,19 +32,19 @@ int main()
 
        bind(listening, (sockaddr*)&hint, sizeof(hint));
  
-    // Tell Winsock the socket is for listening
+    // Esuchando para una posible conexion
     listen(listening, SOMAXCONN);
  
-    // Wait for a connection
+    // Esperando una conexion
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
  
     int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
  
-    char host[NI_MAXHOST];      // Client's remote name
-    char service[NI_MAXSERV];   // Service (i.e. port) the client is connect on
+    char host[NI_MAXHOST];      
+    char service[NI_MAXSERV];   
  
-    memset(host, 0, NI_MAXHOST); // same as memset(host, 0, NI_MAXHOST);
+    memset(host, 0, NI_MAXHOST); 
     memset(service, 0, NI_MAXSERV);
  
     if (getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0)
@@ -57,10 +57,9 @@ int main()
         cout << host << " connected on port " << ntohs(client.sin_port) << endl;
     }
  
-    // Close listening socket
+    // Se cierra el socket en escucha
     close(listening);
  
-    // While loop: accept and echo message back to client
     char buf[4096];
     char buf2[4096];
     char fact[4096];
@@ -73,7 +72,7 @@ int main()
         memset(fact, 0, 4096);
     
         char *err = "No se pudo encontrar la imagen\n";
-        // Wait for client to send data
+        // Esperando a que el cliente envie el mensaje
         int bytesReceived = recv(clientSocket, buf, 4096, 0);
         if (bytesReceived == -1)
         {
@@ -98,8 +97,7 @@ int main()
         char *factor = "Indique el factor de brillo que desea aplicar: \n";
         char *gamma = "Indique el gamma a utilizar\n";
         path = buf;
-        //cout << string(buf, 0, bytesReceived) << endl;
-
+  
        
         
         send(clientSocket, men, strlen(men) + 1, 0);
@@ -136,7 +134,7 @@ int main()
             int facts = recv(clientSocket, fact, 4096, 0);
             image.brightControl(stoi(fact));
             break;
-            //cout << fact << "\n";
+            
 
 
         }
@@ -148,19 +146,7 @@ int main()
             image.gammaCorrection(stoi(fact));
             break;
         }
-
-
-
-        //image.matToArray(buf);
-        //image.prueba();
-        //image.arrayToMat();
-        //image.gray_scale();
-        //image.gaussianBlur();
-        //image.brightControl(200);
-        
-
-        // Echo message back to client
-        //send(clientSocket, buf, bytesReceived + 1, 0);
+   
     }
  
     // Close the socket
