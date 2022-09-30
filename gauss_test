@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
+using namespace cv;
+using namespace std;
+
+ int gaussianBlur(const char* file){
+
+        Mat image = imread(file);
+        if (image.empty()){
+            
+            return -1;
+        }
+
+        Mat img_out;
+        GaussianBlur(image, img_out, Size(9,9), 10, 0);
+        imshow("Salida", img_out);
+        waitKey(0);
+        return 0;
+    }
