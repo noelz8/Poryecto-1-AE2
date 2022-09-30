@@ -18,13 +18,14 @@ using namespace std;
 
 int main()
 {
-
+    // Se crea el socket
     int listening = socket(AF_INET, SOCK_STREAM, 0);
     if (listening == -1)
     {
         cerr << "Cant create a socket";
         return -1;
     }
+    // Se asignan valores importantes para el socket
     sockaddr_in hint;
     hint.sin_family = AF_INET;
     hint.sin_port = htons(54000);
@@ -39,6 +40,7 @@ int main()
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
  
+    // Se conecta el socket con el cliente
     int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
  
     char host[NI_MAXHOST];      
@@ -47,6 +49,7 @@ int main()
     memset(host, 0, NI_MAXHOST); 
     memset(service, 0, NI_MAXSERV);
  
+    // Se obtiene la informacion de conexion del cliente
     if (getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0)
     {
         cout << host << " connected on port " << service << endl;
@@ -67,6 +70,7 @@ int main()
     char *path;
     while (true)
     {
+        
         memset(buf, 0, 4096);
         memset(buf2, 0, 4096);
         memset(fact, 0, 4096);
