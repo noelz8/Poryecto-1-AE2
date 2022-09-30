@@ -10,6 +10,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <ImageProcessing.hpp>
+#include <cmath>
 
 using namespace cv;
 using namespace std;
@@ -95,6 +96,7 @@ int main()
         }
         char *men = "Eliga el filtro a aplicar\n 1: Gaussian Blur\n 2: Escala de grises\n 3: Control de brillo\n 4: Correccion de gama\n";
         char *factor = "Indique el factor de brillo que desea aplicar: \n";
+        char *gamma = "Indique el gamma a utilizar\n";
         path = buf;
         //cout << string(buf, 0, bytesReceived) << endl;
 
@@ -117,7 +119,7 @@ int main()
         }
 
         if(string(buf2, 0, bytes2)=="1"){
-            
+
             image.gaussianBlur();
             break;
         }
@@ -137,6 +139,14 @@ int main()
             //cout << fact << "\n";
 
 
+        }
+
+        if (string(buf2, 0, bytes2)=="4"){
+
+            send(clientSocket, gamma, strlen(gamma)+1, 0);
+            int facts = recv(clientSocket, fact, 4096, 0);
+            image.gammaCorrection(stoi(fact));
+            break;
         }
 
 

@@ -6,6 +6,7 @@
 #include <opencv2/imgproc.hpp>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace cv;
 using namespace std;
@@ -67,7 +68,7 @@ public:
         GaussianBlur(image, img_out, Size(9,9), 10, 0);
         imshow("Salida", img_out);
         waitKey(0);
-        return 1;
+        return 0;
     }
 
 
@@ -77,7 +78,7 @@ public:
         image.convertTo(img_out, -1, 1, bright);
         imshow("Salida", img_out);
         waitKey(0);
-        return 1;
+        return 0;
 
     }
 
@@ -87,14 +88,39 @@ public:
         Mat img_out;
         //Mat image = imread(path);
         cvtColor(image, img_out,COLOR_BGR2GRAY);
-        imshow("Entrada", image);
+        //imshow("Entrada", image);
         imshow("Salida", img_out);
         //cout << image.rows << " " << image.cols << "\n";
 
         waitKey(0);
 
-        return 1;
+        return 0;
 
+    }
+
+    int gammaCorrection(int gamma){
+
+        float x = 0.5;
+
+        cvtColor(image, image, COLOR_BGR2RGB);
+    
+        Mat new_image = Mat(image.size(), image.type());
+        int alpha = gamma;
+        int beta = 0;
+
+        for (int j = 0; j<image.rows; j++){
+            for(int i = 0; i< image.cols; i++){
+                for (int c = 0; c <image.channels(); c++){
+                    new_image.at<Vec3b>(j, i)[c] = saturate_cast<uchar>(alpha*image.at<Vec3b>(j, i)[c] + beta);
+                    //new_image.at<Vec3b>(j,i)[c] = saturate_cast<uchar>((255*pow((x/255), alpha))*image.at<Vec3b>(j,i)[c]);
+                }
+            }
+        }
+
+        image = new_image;
+        imshow("Salida", image);
+        waitKey(0);
+        return 0;
     }
 
     int prueba(){
