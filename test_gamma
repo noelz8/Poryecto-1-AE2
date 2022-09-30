@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+#include <cmath>
+#include <vector>
+
+using namespace cv;
+using namespace std;
+
+    int gammaCorrection(const char* file, int gamma){
+
+        Mat image = imread(file);
+        if (image.empty()){
+            
+            return -1;
+        }
+
+        float x = 0.5;
+
+        cvtColor(image, image, COLOR_BGR2RGB);
+    
+        Mat new_image = Mat(image.size(), image.type());
+        int alpha = gamma;
+        int beta = 0;
+
+        for (int j = 0; j<image.rows; j++){
+            for(int i = 0; i< image.cols; i++){
+                for (int c = 0; c <image.channels(); c++){
+                    new_image.at<Vec3b>(j, i)[c] = saturate_cast<uchar>(alpha*image.at<Vec3b>(j, i)[c] + beta);
+                    //new_image.at<Vec3b>(j,i)[c] = saturate_cast<uchar>((255*pow((x/255), alpha))*image.at<Vec3b>(j,i)[c]);
+                }
+            }
+        }

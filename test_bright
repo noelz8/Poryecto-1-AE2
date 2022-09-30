@@ -6,20 +6,22 @@
 #include <cmath>
 #include <vector>
 
+
 using namespace cv;
 using namespace std;
 
- int gaussianBlur(const char* file){
-    Mat image = imread(file);
-    
-    if (image.empty()){
+int brightControl(const char* file, int bright){
+
+        Mat image = imread(file);
+        if (image.empty()){
             
             return -1;
         }
 
         Mat img_out;
-        GaussianBlur(image, img_out, Size(9,9), 10, 0);
+        image.convertTo(img_out, -1, 1, bright);
         imshow("Salida", img_out);
         waitKey(0);
         return 0;
+
     }

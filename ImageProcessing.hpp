@@ -67,7 +67,7 @@ public:
         image = imread(file);
         if (image.empty()){
             
-            return 1;
+            return -1;
         }
 
         Mat img_out;
@@ -83,7 +83,7 @@ public:
         image = imread(file);
         if (image.empty()){
             
-            return 1;
+            return -1;
         }
 
         Mat img_out;
@@ -100,7 +100,7 @@ public:
         image = imread(file);
         if (image.empty()){
             
-            return 1;
+            return -1;
         }
 
         Mat img_out;
@@ -118,7 +118,7 @@ public:
         image = imread(file);
         if (image.empty()){
             
-            return 1;
+            return -1;
         }
 
         float x = 0.5;
