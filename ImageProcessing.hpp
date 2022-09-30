@@ -32,6 +32,9 @@ public:
 
     bool matToArray(const char* file){
 
+        //vector<uchar> array(image.rows*image.cols*image.channels());
+        //array = image.data;
+
         
         if(file == NULL){
 
@@ -59,7 +62,13 @@ public:
         return true;
     }
 
-    int gaussianBlur(){
+    int gaussianBlur(const char* file){
+
+        image = imread(file);
+        if (image.empty()){
+            
+            return 1;
+        }
 
         Mat img_out;
         GaussianBlur(image, img_out, Size(9,9), 10, 0);
@@ -69,7 +78,13 @@ public:
     }
 
 
-    int brightControl(int bright){
+    int brightControl(const char* file, int bright){
+
+        image = imread(file);
+        if (image.empty()){
+            
+            return 1;
+        }
 
         Mat img_out;
         image.convertTo(img_out, -1, 1, bright);
@@ -80,18 +95,31 @@ public:
     }
 
 
-    int gray_scale(){
-    
+    int gray_scale(const char* file){
+        
+        image = imread(file);
+        if (image.empty()){
+            
+            return 1;
+        }
+
         Mat img_out;
-        cvtColor(image, img_out,COLOR_BGR2GRAY);
+        cvtColor(image, img_out,COLOR_BGR2GRAY);  
         imshow("Salida", img_out);
+
         waitKey(0);
 
         return 0;
 
     }
 
-    int gammaCorrection(int gamma){
+    int gammaCorrection(const char* file, int gamma){
+
+        image = imread(file);
+        if (image.empty()){
+            
+            return 1;
+        }
 
         float x = 0.5;
 
@@ -105,7 +133,7 @@ public:
             for(int i = 0; i< image.cols; i++){
                 for (int c = 0; c <image.channels(); c++){
                     new_image.at<Vec3b>(j, i)[c] = saturate_cast<uchar>(alpha*image.at<Vec3b>(j, i)[c] + beta);
-              
+                    //new_image.at<Vec3b>(j,i)[c] = saturate_cast<uchar>((255*pow((x/255), alpha))*image.at<Vec3b>(j,i)[c]);
                 }
             }
         }
