@@ -12,17 +12,16 @@ using namespace std;
 int main()
 {
     string ubicacion, filtro, fact;
-    //cout << "Ingrese la ubicacion de la imagen: \r\n";
-    //getline(cin, ubicacion);
+    
 
-    //	Create a socket
+    //	Se crea el socket
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1)
     {
         return 1;
     }
 
-    //	Create a hint structure for the server we're connecting with
+    //	Se crea una estructura para unir el socket que estamos creando
     int port = 54000;
     string ipAddress = "127.0.0.1";
 
@@ -31,7 +30,7 @@ int main()
     hint.sin_port = htons(port);
     inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
 
-    //	Connect to the server on the socket
+    //	Se conecta al socket del server
     int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
     if (connectRes == -1)
     {
@@ -45,13 +44,12 @@ int main()
 
 
     do {
-        //		Enter lines of text
+      
         cout << "Ingrese la ubicacion de la imagen: \r\n";
         getline(cin, ubicacion);
-        //cout << "> ";
-        //getline(cin, ubicacion);
+     
 
-        //		Send to server
+        //		Enviando mensajes al servidor
         int sendRes = send(sock, ubicacion.c_str(), ubicacion.size() + 1, 0);
         if (sendRes == -1)
         {
@@ -59,16 +57,16 @@ int main()
             continue;
         }
 
-        //		Wait for response
+        //		Esperando la respuesta del servidor
         memset(buf, 0, 4096);
         memset(fekts,0,4096);
         int bytesReceived = recv(sock, buf, 4096, 0);
         if (bytesReceived == -1)
         {
-            cout << "There was an error getting response from server\r\n";
+            cout << "Ocurrio un error obteniendo la respuesta\r\n";
         }
         
-            //		Display response
+            //		Mostrando la respuesta
 
         cout << "SERVER> " << string(buf, bytesReceived) << "\r\n";
 
